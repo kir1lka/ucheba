@@ -1,0 +1,11 @@
+* text=auto
+*.md text eol=lf
+*.pdf binary
+*.doc binary
+*.docx binary
+*.pptx binary
+*.xlsx binary
+*.zip binary
+*.rar binary
+*.png binary
+*.jpg binary
