@@ -1,0 +1,23 @@
+enable
+configure terminal
+hostname R2
+no router rip
+interface FastEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+ exit
+interface Serial1/0
+ ip address 192.168.5.1 255.255.255.252
+ no shutdown
+ exit
+interface Serial1/1
+ ip address 192.168.6.2 255.255.255.252
+ no shutdown
+ exit
+router igrp 101
+ network 192.168.1.0
+ network 192.168.5.0
+ network 192.168.6.0
+exit
+end
+write memory
