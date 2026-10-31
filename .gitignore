@@ -17,3 +17,6 @@ Thumbs.db
 !.env.example
 *.pem
 *.key
+
+# Дампы сбоев приложений
+*.dmp
