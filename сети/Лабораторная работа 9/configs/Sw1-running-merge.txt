@@ -1,0 +1,27 @@
+hostname Sw1
+no ip domain-lookup
+vlan 41
+name Buh
+exit
+vlan 42
+name Sales
+exit
+vlan 43
+name Market
+exit
+interface range fa0/1-3
+switchport mode access
+switchport access vlan 41
+no shutdown
+exit
+interface range fa0/4-6
+switchport mode access
+switchport access vlan 42
+no shutdown
+exit
+interface range fa0/7-10
+switchport mode access
+switchport access vlan 43
+no shutdown
+exit
+end

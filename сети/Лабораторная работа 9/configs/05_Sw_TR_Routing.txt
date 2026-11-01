@@ -1,0 +1,23 @@
+enable
+configure terminal
+ip routing
+interface vlan 41
+ip address 10.41.4.1 255.255.255.0
+no shutdown
+exit
+interface vlan 42
+ip address 10.42.4.1 255.255.255.0
+no shutdown
+exit
+interface vlan 43
+ip address 10.43.4.1 255.255.255.0
+no shutdown
+exit
+interface vlan 45
+ip address 10.45.4.1 255.255.255.0
+no shutdown
+exit
+end
+write memory
+show ip interface brief
+show ip route

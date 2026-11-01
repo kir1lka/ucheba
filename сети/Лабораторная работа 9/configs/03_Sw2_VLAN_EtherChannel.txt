@@ -1,0 +1,46 @@
+enable
+configure terminal
+hostname Sw2
+no ip domain-lookup
+vlan 41
+name Buh
+exit
+vlan 42
+name Sales
+exit
+vlan 43
+name Market
+exit
+interface range fa0/1-2
+switchport mode access
+switchport access vlan 41
+no shutdown
+exit
+interface range fa0/3-4
+switchport mode access
+switchport access vlan 42
+no shutdown
+exit
+interface range fa0/5-6
+switchport mode access
+switchport access vlan 43
+no shutdown
+exit
+interface range fa0/10-13
+shutdown
+switchport access vlan 1
+switchport mode trunk
+switchport trunk allowed vlan 41-43
+channel-group 1 mode on
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 41-43
+no shutdown
+exit
+interface range fa0/10-13
+no shutdown
+end
+write memory
+show etherchannel summary
+show interfaces trunk

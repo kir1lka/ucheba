@@ -1,0 +1,25 @@
+enable
+configure terminal
+interface range fa0/7-9
+switchport mode access
+switchport access vlan 43
+no shutdown
+exit
+interface range fa0/10-13
+shutdown
+switchport access vlan 1
+switchport mode trunk
+switchport trunk allowed vlan 41-43
+channel-group 1 mode on
+exit
+interface port-channel 1
+switchport mode trunk
+switchport trunk allowed vlan 41-43
+no shutdown
+exit
+interface range fa0/10-13
+no shutdown
+end
+write memory
+show etherchannel summary
+show interfaces trunk
