@@ -6,3 +6,11 @@
 	path = java/мой репозиторий/cad-2025
 	url = https://github.com/kir1lka/cad-2025.git
 	branch = main
+[submodule "python-dap"]
+	path = python/мой репозиторий/dap-2024
+	url = https://github.com/kir1lka/dap-2024.git
+	branch = main
+[submodule "python-course"]
+	path = python/репозиторий курса/dap-2024
+	url = https://github.com/chebotarevsa/dap-2024.git
+	branch = main

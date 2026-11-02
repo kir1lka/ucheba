@@ -1,0 +1,9 @@
+services:
+  dap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dap
+    volumes:
+      - ../.:/code:cached
+    command: sleep infinity

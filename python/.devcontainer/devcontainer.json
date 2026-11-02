@@ -1,0 +1,20 @@
+{
+    "name": "dap",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dap",
+    "workspaceFolder": "/code",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "/bin/zsh"
+                    }
+                },
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "editor.formatOnSave": true
+            },
+            "extensions": ["ms-python.python","ms-python.debugpy", "ms-python.vscode-pylance", "ms-toolsai.jupyter"]
+        }
+    }
+}
