@@ -2,3 +2,7 @@
 	path = web
 	url = https://github.com/kir1lka/web-labs.git
 	branch = main
+[submodule "java-cad"]
+	path = java/мой репозиторий/cad-2025
+	url = https://github.com/kir1lka/cad-2025.git
+	branch = main
