@@ -1,0 +1,125 @@
+SINUS                                                                                                         PAGE 1
+
+                       1    $MOD52
+0000                   2    ORG 00h
+0000 02005C            3    jmp pre_start
+                       4    
+000B                   5    ORG 0Bh
+000B 020032            6    jmp TC_0_interupt_handler
+                       7    
+002B                   8    ORG 2Bh
+002B 020039            9    jmp TC_2_interupt_handler
+                      10    
+0032                  11    ORG 32h
+0032                  12    TC_0_interupt_handler:
+0032 C290             13    clr P1.0
+0034 C28C             14    clr TR0
+0036 C28D             15    clr TF0
+0038 32               16    reti
+                      17    
+0039                  18    TC_2_interupt_handler:
+0039 D290             19    setb P1.0
+003B 85308C           20    mov TH0, 30h
+003E 85318A           21    mov TL0, 31h
+0041 D28C             22    setb TR0
+0043 E532             23    mov A, 32h
+0045 93               24    movc A, @A+DPTR
+0046 F530             25    mov 30h, A
+0048 0532             26    inc 32h
+004A E532             27    mov A, 32h
+004C 93               28    movc A, @A+DPTR
+004D F531             29    mov 31h, A
+004F 0532             30    inc 32h
+0051 E532             31    mov A, 32h
+0053 B46403           32    cjne A, #100, TC_2_interupt_exit
+0056 753200           33    mov 32h, #0
+                      34    
+0059                  35    TC_2_interupt_exit:
+0059 C2CF             36    clr TF2
+005B 32               37    reti
+                      38    
+005C                  39    pre_start:
+                      40    ;Global settings
+005C 75A8A2           41    mov IE, #10100010b
+005F 758901           42    mov TMOD, #00000001b ;Set Timer 0 to 16bit
+                      43    ;Timer 2 (period timer) settings
+                      44    ;mov T2CON, #0
+0062 75CB4E           45    mov RCAP2H, #high(20000)
+0065 75CA20           46    mov RCAP2L, #low(20000)
+0068 85CBCD           47    mov TH2, RCAP2H
+006B 85CACC           48    mov TL2, RCAP2L
+                      49    ;Timer 0 (PWM fill factor) settings
+006E 7530A7           50    mov 30h, #high(42767)
+0071 75310F           51    mov 31h, #low(42767)
+0074 900085           52    mov DPTR, #PWM_SIN_TABLE
+0077 85308C           53    mov TH0, 30h
+007A 85318A           54    mov TL0, 31h
+                      55    ;Start PWM
+007D D2CA             56    setb TR2
+007F D28C             57    setb TR0
+0081 D290             58    setb P1.0
+SINUS                                                                                                         PAGE 2
+
+0083 80FE             59    jmp $
+                      60    
+0085                  61    PWM_SIN_TABLE:
+0085 A70F             62    DB 167, 15
+0087 9BE9             63    DB 155, 233
+0089 90F1             64    DB 144, 241
+008B 8652             65    DB 134, 82
+008D 7C36             66    DB 124, 54
+008F 72C8             67    DB 114, 200
+0091 6A2D             68    DB 106, 45
+0093 6288             69    DB 98, 136
+0095 5BF7             70    DB 91, 247
+0097 5696             71    DB 86, 150
+0099 5279             72    DB 82, 121
+009B 4FB2             73    DB 79, 178
+009D 4E4C             74    DB 78, 76
+009F 4E4C             75    DB 78, 76
+00A1 4FB2             76    DB 79, 178
+00A3 5279             77    DB 82, 121
+00A5 5696             78    DB 86, 150
+00A7 5BF7             79    DB 91, 247
+00A9 6288             80    DB 98, 136
+00AB 6A2D             81    DB 106, 45
+00AD 72C8             82    DB 114, 200
+00AF 7C36             83    DB 124, 54
+00B1 8652             84    DB 134, 82
+00B3 90F1             85    DB 144, 241
+00B5 9BE9             86    DB 155, 233
+00B7 A70F             87    DB 167, 15
+00B9 B235             88    DB 178, 53
+00BB BD2D             89    DB 189, 45
+00BD C7CC             90    DB 199, 204
+00BF D1E8             91    DB 209, 232
+00C1 DB56             92    DB 219, 86
+00C3 E3F1             93    DB 227, 241
+00C5 EB96             94    DB 235, 150
+00C7 F227             95    DB 242, 39
+00C9 F788             96    DB 247, 136
+00CB FBA5             97    DB 251, 165
+00CD FE6C             98    DB 254, 108
+                      99    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+SINUS                                                                                                         PAGE 3
+
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+PRE_START. . . . . . . . . . . .  C ADDR  005CH  
+PWM_SIN_TABLE. . . . . . . . . .  C ADDR  0085H  
+RCAP2H . . . . . . . . . . . . .  D ADDR  00CBH  PREDEFINED  
+RCAP2L . . . . . . . . . . . . .  D ADDR  00CAH  PREDEFINED  
+TC_0_INTERUPT_HANDLER. . . . . .  C ADDR  0032H  
+TC_2_INTERUPT_EXIT . . . . . . .  C ADDR  0059H  
+TC_2_INTERUPT_HANDLER. . . . . .  C ADDR  0039H  
+TF0. . . . . . . . . . . . . . .  B ADDR  008DH  PREDEFINED  
+TF2. . . . . . . . . . . . . . .  B ADDR  00CFH  PREDEFINED  
+TH0. . . . . . . . . . . . . . .  D ADDR  008CH  PREDEFINED  
+TH2. . . . . . . . . . . . . . .  D ADDR  00CDH  PREDEFINED  
+TL0. . . . . . . . . . . . . . .  D ADDR  008AH  PREDEFINED  
+TL2. . . . . . . . . . . . . . .  D ADDR  00CCH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  
+TR0. . . . . . . . . . . . . . .  B ADDR  008CH  PREDEFINED  
+TR2. . . . . . . . . . . . . . .  B ADDR  00CAH  PREDEFINED  

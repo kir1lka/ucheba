@@ -1,0 +1,68 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51
+0000                   2    ORG 00h
+0000 02002B            3    jmp pre_start
+                       4    
+0023                   5    ORG 23h ;Serial interupt vector
+0023 209829            6    jb RI, receiving
+0026 C299              7    clr TI
+0028 32                8    reti
+                       9    
+002B                  10    ORG 2Bh
+002B                  11    pre_start:
+002B 75A890           12    mov IE, #10010000b ;Enable only Serial interupt
+002E 759810           13    mov SCON, #00010000b ;Enable receive
+                      14    
+0031                  15    start:
+0031 753040           16    mov 30h, #40h ;Address of BASE to receive
+0034 753200           17    mov 32h, #0 ;Clear CSUM
+0037 3000FD           18    jnb 0, $ ;Wait to end receive
+003A 113E             19    acall calculate_control_sum
+003C 80FE             20    jmp $
+                      21    
+003E                  22    calculate_control_sum:
+003E AF30             23    mov R7, 30h ;Copy address of BASE
+0040 AE31             24    mov R6, 31h ;Copy number of bytes
+0042 900000           25    mov DPTR, #0
+0045                  26    loop:
+0045 EF               27    mov A, R7
+0046 93               28    movc A, @A+DPTR
+0047 3532             29    addc A, 32h
+0049 F532             30    mov 32h, A
+004B 0F               31    inc R7
+004C DEF7             32    djnz R6, loop
+004E 22               33    ret
+                      34    
+004F                  35    receiving:
+004F C298             36    clr RI
+0051 200108           37    jb 1, receive_data_byte
+0054 859931           38    mov 31h, SBUF
+0057 D201             39    setb 1
+0059 020064           40    jmp receive_int_end
+                      41    
+005C                  42    receive_data_byte:
+005C A830             43    mov R0, 30h
+005E A699             44    mov @R0, SBUF
+0060 0530             45    inc 30h
+0062 1531             46    dec 31h
+                      47    
+0064                  48    receive_int_end:
+0064 32               49    reti
+                      50    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+CALCULATE_CONTROL_SUM. . . . . .  C ADDR  003EH  
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+LOOP . . . . . . . . . . . . . .  C ADDR  0045H  
+PRE_START. . . . . . . . . . . .  C ADDR  002BH  
+RECEIVE_DATA_BYTE. . . . . . . .  C ADDR  005CH  
+RECEIVE_INT_END. . . . . . . . .  C ADDR  0064H  
+RECEIVING. . . . . . . . . . . .  C ADDR  004FH  
+RI . . . . . . . . . . . . . . .  B ADDR  0098H  PREDEFINED  
+SBUF . . . . . . . . . . . . . .  D ADDR  0099H  PREDEFINED  
+SCON . . . . . . . . . . . . . .  D ADDR  0098H  PREDEFINED  
+START. . . . . . . . . . . . . .  C ADDR  0031H  NOT USED  
+TI . . . . . . . . . . . . . . .  B ADDR  0099H  PREDEFINED  

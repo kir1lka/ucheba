@@ -1,0 +1,43 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51
+0000                   2    ORG 00h
+                       3    
+0000 C290              4    clr P1.0
+0002 C291              5    clr P1.1
+0004 902000            6    mov dptr, #2000h
+0007 7FF4              7    mov r7, #244
+0009 7E02              8    mov r6, #2
+000B 7D00              9    mov r5, #00h
+                      10    
+000D                  11    loop:
+000D E4               12    clr a
+000E 93               13    movc a, @a+dptr
+000F 2D               14    add a, r5
+0010 FD               15    mov r5, a
+0011 A3               16    inc dptr
+                      17    
+0012 DFF9             18    djnz r7, loop
+                      19    ;mov r7, #100
+0014 DEF7             20    djnz r6, loop
+                      21    
+0016 BD0F05           22    cjne r5,#15,error
+0019 D291             23    setb P1.1
+001B 020020           24    jmp program_end
+                      25    
+001E                  26    error:
+001E D290             27    setb P1.0
+0020                  28    program_end:
+0020 80FE             29    sjmp $
+2000                  30    ORG 2000h
+2000 01020304         31    DB 1,2,3,4,5
+2004 05         
+                      32    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+ERROR. . . . . . . . . . . . . .  C ADDR  001EH  
+LOOP . . . . . . . . . . . . . .  C ADDR  000DH  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+PROGRAM_END. . . . . . . . . . .  C ADDR  0020H  

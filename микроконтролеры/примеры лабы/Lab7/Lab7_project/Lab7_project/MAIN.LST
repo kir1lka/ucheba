@@ -1,0 +1,59 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD52
+0000                   2    ORG 00h
+0000 020033            3    jmp pre_start
+                       4    
+000B                   5    ORG 0Bh
+000B 020049            6    jmp TC_0_interupt_handler
+                       7    
+002B                   8    ORG 2Bh
+002B 02004C            9    jmp TC_2_interupt_handler
+                      10    
+0033                  11    ORG 33h
+0033                  12    pre_start:
+0033 75CD82           13    mov TH2, #HIGH(33441) ;Period time correct (for 11 MHz)
+0036 75CCA1           14    mov TL2, #LOW(33441)
+0039 85CDCB           15    mov RCAP2H, TH2
+003C 85CCCA           16    mov RCAP2L, TL2
+003F 758902           17    mov TMOD, #00000010b ;Set T/C0 to autoreload
+0042 75A8A2           18    mov IE, #10100010b ;Enable global and timers interupt
+0045 D2CA             19    setb TR2 ;Enable timer
+0047 80FE             20    jmp $ ;Do nothing
+                      21    
+                      22    
+0049                  23    TC_0_interupt_handler:
+0049 C28D             24    clr TF0 ;Clear overflow flag
+004B 32               25    reti
+                      26    
+004C                  27    TC_2_interupt_handler:
+004C 209005           28    jb P1.0, bit_off
+004F D290             29    setb P1.0
+0051 020056           30    jmp TC_2_interupt_exit
+0054                  31    bit_off:
+0054 C290             32    clr P1.0
+0056                  33    TC_2_interupt_exit:
+0056 C2CF             34    clr TF2 ;Clear overflow flag
+0058 C2CE             35    clr EXF2
+005A 32               36    reti
+                      37    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+BIT_OFF. . . . . . . . . . . . .  C ADDR  0054H  
+EXF2 . . . . . . . . . . . . . .  B ADDR  00CEH  PREDEFINED  
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+PRE_START. . . . . . . . . . . .  C ADDR  0033H  
+RCAP2H . . . . . . . . . . . . .  D ADDR  00CBH  PREDEFINED  
+RCAP2L . . . . . . . . . . . . .  D ADDR  00CAH  PREDEFINED  
+TC_0_INTERUPT_HANDLER. . . . . .  C ADDR  0049H  
+TC_2_INTERUPT_EXIT . . . . . . .  C ADDR  0056H  
+TC_2_INTERUPT_HANDLER. . . . . .  C ADDR  004CH  
+TF0. . . . . . . . . . . . . . .  B ADDR  008DH  PREDEFINED  
+TF2. . . . . . . . . . . . . . .  B ADDR  00CFH  PREDEFINED  
+TH2. . . . . . . . . . . . . . .  D ADDR  00CDH  PREDEFINED  
+TL2. . . . . . . . . . . . . . .  D ADDR  00CCH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  
+TR2. . . . . . . . . . . . . . .  B ADDR  00CAH  PREDEFINED  

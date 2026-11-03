@@ -1,0 +1,79 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51
+0000                   2    ORG 00h
+0000 02002B            3    jmp pre_start
+                       4    
+0023                   5    ORG 23h ;Serial interupt vector
+0023 209926            6    jb TI, transmiting
+0026 C298              7    clr RI
+0028 32                8    reti
+                       9    
+002B                  10    ORG 2Bh
+002B                  11    pre_start:
+002B 75A890           12    mov IE, #10010000b ;Enable only Serial interupt
+                      13    
+002E                  14    start:
+002E 753070           15    mov 30h, #70h ;Address of BASE
+0031 75310A           16    mov 31h, #10 ;Number of bytes to transive
+0034 113B             17    acall calculate_control_sum
+0036 853199           18    mov SBUF, 31h ;init transmit
+                      19    
+0039 80FE             20    jmp $ ;Program end
+                      21    
+003B                  22    calculate_control_sum:
+003B AF30             23    mov R7, 30h ;Copy address of BASE
+003D AE31             24    mov R6, 31h ;Copy number of bytes
+003F 900000           25    mov DPTR, #0
+0042                  26    loop:
+0042 EF               27    mov A, R7
+0043 93               28    movc A, @A+DPTR
+0044 3532             29    addc A, 32h
+0046 F532             30    mov 32h, A
+0048 0F               31    inc R7
+0049 DEF7             32    djnz R6, loop
+004B 22               33    ret
+                      34    
+004C                  35    transmiting:
+004C D53106           36    djnz 31h, byte_transmit ;Bytes counter
+                      37    ;control_sum_transmit
+004F 853299           38    mov SBUF, 32h
+0052 02005F           39    jmp transmit_int_end
+                      40    
+0055                  41    byte_transmit:
+0055 900000           42    mov DPTR, #0
+0058 E530             43    mov A, 30h
+                      44    
+                      45    ;Transmit process
+005A 93               46    movc A, @A+DPTR ;get byte from ROM
+005B F599             47    mov SBUF, A
+005D 0530             48    inc 30h
+                      49    
+005F                  50    transmit_int_end:
+005F C299             51    clr TI
+0061 32               52    reti
+                      53    
+0070                  54    ORG 70h
+0070 01020304         55    DB 1,2,3,4,5,6,7,8,9,10
+0074 05060708   
+0078 090A       
+0080                  56    ORG 80h
+MAIN                                                                                                          PAGE 2
+
+0080 020408           57    DB 2,4,8
+                      58    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 3
+
+BYTE_TRANSMIT. . . . . . . . . .  C ADDR  0055H  
+CALCULATE_CONTROL_SUM. . . . . .  C ADDR  003BH  
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+LOOP . . . . . . . . . . . . . .  C ADDR  0042H  
+PRE_START. . . . . . . . . . . .  C ADDR  002BH  
+RI . . . . . . . . . . . . . . .  B ADDR  0098H  PREDEFINED  
+SBUF . . . . . . . . . . . . . .  D ADDR  0099H  PREDEFINED  
+START. . . . . . . . . . . . . .  C ADDR  002EH  NOT USED  
+TI . . . . . . . . . . . . . . .  B ADDR  0099H  PREDEFINED  
+TRANSMITING. . . . . . . . . . .  C ADDR  004CH  
+TRANSMIT_INT_END . . . . . . . .  C ADDR  005FH  

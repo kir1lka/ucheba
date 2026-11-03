@@ -1,0 +1,48 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51  ; This includes 8051 definitions for the Metalink assembler
+                       2    ;RX controller
+0000                   3    ORG 00h
+0000 02002B            4    jmp pre_start
+0023                   5    ORG 23h
+0023 C298              6    clr RI
+0025 32                7    reti
+002B                   8    ORG 2Bh
+002B                   9    pre_start:
+002B 759840           10        mov SCON, #01000000b
+                      11            ;mov PCON, #10000000b ;Enable double speed
+002E D29C             12            setb REN
+0030 758920           13            mov TMOD, #00100000b 
+0033 75A890           14        mov IE, #10010000b 
+0036 D28E             15            setb TCON.6
+0038 D2BC             16            setb IP.4  
+003A 7814             17        mov R0, #14h  
+003C 7960             18        mov R1, #60h  
+003E 758BFB           19            mov TL1, #0FBh
+0041 758DFB           20            mov TH1, #0FBh
+0044 D28E             21            setb TR1  
+0046                  22    met:
+0046 3098FD           23        jnb RI, met
+0049 E599             24        mov A,SBUF  
+004B F7               25        mov @R1, A   
+004C 09               26        inc R1   
+004D D8F7             27        djnz R0, met    
+004F 80FE             28    sjmp $
+                      29    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+IP . . . . . . . . . . . . . . .  D ADDR  00B8H  PREDEFINED  
+MET. . . . . . . . . . . . . . .  C ADDR  0046H  
+PRE_START. . . . . . . . . . . .  C ADDR  002BH  
+REN. . . . . . . . . . . . . . .  B ADDR  009CH  PREDEFINED  
+RI . . . . . . . . . . . . . . .  B ADDR  0098H  PREDEFINED  
+SBUF . . . . . . . . . . . . . .  D ADDR  0099H  PREDEFINED  
+SCON . . . . . . . . . . . . . .  D ADDR  0098H  PREDEFINED  
+TCON . . . . . . . . . . . . . .  D ADDR  0088H  PREDEFINED  
+TH1. . . . . . . . . . . . . . .  D ADDR  008DH  PREDEFINED  
+TL1. . . . . . . . . . . . . . .  D ADDR  008BH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  
+TR1. . . . . . . . . . . . . . .  B ADDR  008EH  PREDEFINED  

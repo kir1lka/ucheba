@@ -1,0 +1,68 @@
+ALTERN^1                                                                                                      PAGE 1
+
+                       1    $MOD51
+0000                   2    ORG 0h
+0000 02002B            3    jmp pre_start
+                       4    
+002B                   5    ORG 2Bh
+                       6    
+002B                   7    pre_start:
+002B 759000            8    mov P1, #0h
+002E 783C              9    mov R0, #60 ; Job loop count (cicle count)
+0030 7920             10    mov R1, #32 ; Coef light 32=2sec, 16=1sec, etc
+0032 7A10             11    mov R2, #16 ; Coef nolight 32=2sec, 16=1sec, etc
+0034 AB01             12    mov R3, 1
+0036 AC02             13    mov R4, 2
+                      14    
+0038 758ADC           15    mov TL0, #low(3036)
+003B 758C0B           16    mov TH0, #high(3036)
+003E 758BDC           17    mov TL1, #low(3036)
+0041 758D0B           18    mov TH1, #high(3036)
+                      19    
+0044 758911           20    mov TMOD, #00010001b
+                      21    ;mov TCON, #01010000b
+                      22    ;mov IE, #10001010b
+                      23    
+0047                  24    start:
+                      25    
+0047 C293             26    clr P1.3 ;Light ON (1)
+0049 D28C             27    setb TCON.4 ;T0 ON (1)
+004B C28E             28    clr TCON.6 ;T1 OFF (1)
+004D AC02             29    mov R4, 2 ;(2)
+004F                  30    light_loop:
+004F 308DFD           31    jnb TCON.5, $ ;(2)
+0052 758ADC           32    mov TL0, #low(3036);(2)
+0055 758C0B           33    mov TH0, #high(3036) ;(2)
+0058 C28D             34    clr TCON.5
+005A DBF3             35    djnz R3, light_loop
+                      36    
+005C D293             37    setb P1.3 ;Light OFF (1)
+005E D28E             38    setb TCON.6 ;T1 ON (1)
+0060 C28C             39    clr TCON.4 ;T0 OFF (1)
+0062 AB01             40    mov R3, 1
+0064                  41    lightoff_loop:
+0064 308FFD           42    jnb TCON.7, $ ;Continue (2)
+0067 758BDC           43    mov TL1, #low(3036);(2)
+006A 758D0B           44    mov TH1, #high(3036) ;(2)
+006D C28F             45    clr TCON.7;(1)
+006F DCF3             46    djnz R4, lightoff_loop
+                      47    
+0071 D8D4             48    djnz R0, start ;Job interval
+                      49    
+0073 80FE             50    jmp $
+                      51    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+ALTERN^1                                                                                                      PAGE 2
+
+LIGHTOFF_LOOP. . . . . . . . . .  C ADDR  0064H  
+LIGHT_LOOP . . . . . . . . . . .  C ADDR  004FH  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+PRE_START. . . . . . . . . . . .  C ADDR  002BH  
+START. . . . . . . . . . . . . .  C ADDR  0047H  
+TCON . . . . . . . . . . . . . .  D ADDR  0088H  PREDEFINED  
+TH0. . . . . . . . . . . . . . .  D ADDR  008CH  PREDEFINED  
+TH1. . . . . . . . . . . . . . .  D ADDR  008DH  PREDEFINED  
+TL0. . . . . . . . . . . . . . .  D ADDR  008AH  PREDEFINED  
+TL1. . . . . . . . . . . . . . .  D ADDR  008BH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  

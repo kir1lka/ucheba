@@ -1,0 +1,139 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD52
+0000                   2    ORG 00h
+0000 02005C            3    jmp pre_start
+                       4    
+000B                   5    ORG 0Bh
+000B 020032            6    jmp TC_0_interupt_handler
+                       7    
+002B                   8    ORG 2Bh
+002B 020039            9    jmp TC_2_interupt_handler
+                      10    
+0032                  11    ORG 32h
+0032                  12    TC_0_interupt_handler:
+0032 C290             13    clr P1.0
+0034 C28C             14    clr TR0
+0036 C28D             15    clr TF0
+0038 32               16    reti
+                      17    
+0039                  18    TC_2_interupt_handler:
+0039 D290             19    setb P1.0
+003B 85308C           20    mov TH0, 30h
+003E 85318A           21    mov TL0, 31h
+0041 D28C             22    setb TR0
+0043 E532             23    mov A, 32h
+0045 93               24    movc A, @A+DPTR
+0046 F530             25    mov 30h, A
+0048 0532             26    inc 32h
+004A E532             27    mov A, 32h
+004C 93               28    movc A, @A+DPTR
+004D F531             29    mov 31h, A
+004F 0532             30    inc 32h
+0051 E532             31    mov A, 32h
+0053 B46403           32    cjne A, #100, TC_2_interupt_exit
+0056 753200           33    mov 32h, #0
+                      34    
+0059                  35    TC_2_interupt_exit:
+0059 C2CF             36    clr TF2
+005B 32               37    reti
+                      38    
+005C                  39    pre_start:
+                      40    ;Global settings
+005C 75A8A2           41    mov IE, #10100010b
+005F 758901           42    mov TMOD, #00000001b ;Set Timer 0 to 16bit
+                      43    ;Timer 2 (period timer) settings
+                      44    ;mov T2CON, #0
+0062 75CBFE           45    mov RCAP2H, #high(65100)
+0065 75CA4C           46    mov RCAP2L, #low(65100)
+0068 85CBCD           47    mov TH2, RCAP2H
+006B 85CACC           48    mov TL2, RCAP2L
+                      49    ;Timer 0 (PWM fill factor) settings
+006E 7530FF           50    mov 30h, #255
+0071 753125           51    mov 31h, #37
+0074 900085           52    mov DPTR, #PWM_SIN_TABLE
+0077 85308C           53    mov TH0, 30h
+007A 85318A           54    mov TL0, 31h
+                      55    ;Start PWM
+007D D2CA             56    setb TR2
+007F D28C             57    setb TR0
+0081 D290             58    setb P1.0
+MAIN                                                                                                          PAGE 2
+
+0083 80FE             59    jmp $
+                      60    
+0085                  61    PWM_SIN_TABLE:
+0085 FF25             62    DB 255, 37
+0087 FF09             63    DB 255, 9
+0089 FEEE             64    DB 254, 238
+008B FED3             65    DB 254, 211
+008D FEBA             66    DB 254, 186
+008F FEA3             67    DB 254, 163
+0091 FE8D             68    DB 254, 141
+0093 FE7B             69    DB 254, 123
+0095 FE6B             70    DB 254, 107
+0097 FE5E             71    DB 254, 94
+0099 FE54             72    DB 254, 84
+009B FE4E             73    DB 254, 78
+009D FE4B             74    DB 254, 75
+009F FE4C             75    DB 254, 76
+00A1 FE50             76    DB 254, 80
+00A3 FE58             77    DB 254, 88
+00A5 FE64             78    DB 254, 100
+00A7 FE72             79    DB 254, 114
+00A9 FE84             80    DB 254, 132
+00AB FE98             81    DB 254, 152
+00AD FEAE             82    DB 254, 174
+00AF FEC6             83    DB 254, 198
+00B1 FEE0             84    DB 254, 224
+00B3 FEFB             85    DB 254, 251
+00B5 FF17             86    DB 255, 23
+00B7 FF33             87    DB 255, 51
+00B9 FF4F             88    DB 255, 79
+00BB FF6A             89    DB 255, 106
+00BD FF84             90    DB 255, 132
+00BF FF9C             91    DB 255, 156
+00C1 FFB2             92    DB 255, 178
+00C3 FFC6             93    DB 255, 198
+00C5 FFD8             94    DB 255, 216
+00C7 FFE6             95    DB 255, 230
+00C9 FFF2             96    DB 255, 242
+00CB FFFA             97    DB 255, 250
+00CD FFFE             98    DB 255, 254
+00CF FFFF             99    DB 255, 255
+00D1 FFFC            100    DB 255, 252
+00D3 FFF6            101    DB 255, 246
+00D5 FFEC            102    DB 255, 236
+00D7 FFDF            103    DB 255, 223
+00D9 FFCF            104    DB 255, 207
+00DB FFBD            105    DB 255, 189
+00DD FFA7            106    DB 255, 167
+00DF FF90            107    DB 255, 144
+00E1 FF77            108    DB 255, 119
+00E3 FF5C            109    DB 255, 92
+00E5 FF41            110    DB 255, 65
+00E7 FF25            111    DB 255, 37
+00E9 FF09            112    DB 255, 9
+                     113    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 3
+
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+PRE_START. . . . . . . . . . . .  C ADDR  005CH  
+PWM_SIN_TABLE. . . . . . . . . .  C ADDR  0085H  
+RCAP2H . . . . . . . . . . . . .  D ADDR  00CBH  PREDEFINED  
+RCAP2L . . . . . . . . . . . . .  D ADDR  00CAH  PREDEFINED  
+TC_0_INTERUPT_HANDLER. . . . . .  C ADDR  0032H  
+TC_2_INTERUPT_EXIT . . . . . . .  C ADDR  0059H  
+TC_2_INTERUPT_HANDLER. . . . . .  C ADDR  0039H  
+TF0. . . . . . . . . . . . . . .  B ADDR  008DH  PREDEFINED  
+TF2. . . . . . . . . . . . . . .  B ADDR  00CFH  PREDEFINED  
+TH0. . . . . . . . . . . . . . .  D ADDR  008CH  PREDEFINED  
+TH2. . . . . . . . . . . . . . .  D ADDR  00CDH  PREDEFINED  
+TL0. . . . . . . . . . . . . . .  D ADDR  008AH  PREDEFINED  
+TL2. . . . . . . . . . . . . . .  D ADDR  00CCH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  
+TR0. . . . . . . . . . . . . . .  B ADDR  008CH  PREDEFINED  
+TR2. . . . . . . . . . . . . . .  B ADDR  00CAH  PREDEFINED  

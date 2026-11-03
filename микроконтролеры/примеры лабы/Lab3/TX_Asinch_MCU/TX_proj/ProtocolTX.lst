@@ -1,0 +1,91 @@
+PROTOC^1                                                                                                      PAGE 1
+
+                       1    $MOD51
+                       2    ;TX controller
+0000                   3    ORG 00h
+0000 02002B            4    jmp pre_start
+                       5    
+0023                   6    ORG 23h ;Serial interupt vector
+0023 209940            7    jb TI, transmiting
+0026 C298              8    clr RI
+0028 32                9    reti
+                      10    
+002B                  11    ORG 2Bh
+002B                  12    pre_start:
+002B 75A890           13    mov IE, #10010000b ;Enable only Serial interupt
+002E 759840           14    mov SCON, #01000000b ;Switch to Serail mode 1
+0031 758700           15    mov PCON, #00000000b ;Enable double speed
+0034 758902           16    mov TMOD, #00000010b ;Switch to T/C1 mode 2
+0037 758DFF           17    mov TH1, #0FFh ;Max serial speed
+003A 758840           18    mov TCON, #01000000b ;Enable T/C1 (and serial too)
+                      19    
+003D                  20    start:
+003D 753070           21    mov 30h, #70h ;Address of BASE
+0040 75310A           22    mov 31h, #10 ;Number of bytes to transive
+0043 1155             23    acall calculate_control_sum
+0045 75990A           24    mov SBUF, #0Ah
+0048 3099FD           25    jnb TI, $
+004B C299             26    clr TI
+004D 759956           27    mov SBUF, #56H
+0050 3099FD           28    jnb TI, $
+0053 80FE             29    jmp $
+                      30    
+0055                  31    calculate_control_sum:
+0055 AF30             32    mov R7, 30h ;Copy address of BASE
+0057 AE31             33    mov R6, 31h ;Copy number of bytes
+0059 900000           34    mov DPTR, #0
+005C                  35    loop:
+005C EF               36    mov A, R7
+005D 93               37    movc A, @A+DPTR
+005E 3532             38    addc A, 32h
+0060 F532             39    mov 32h, A
+0062 0F               40    inc R7
+0063 DEF7             41    djnz R6, loop
+0065 22               42    ret
+                      43    
+0066                  44    transmiting:
+0066 D53106           45    djnz 31h, byte_transmit ;Bytes counter
+                      46    ;control_sum_transmit
+0069 853299           47    mov SBUF, 32h
+006C 020079           48    jmp transmit_int_end
+                      49    
+006F                  50    byte_transmit:
+006F 900000           51    mov DPTR, #0
+0072 E530             52    mov A, 30h
+                      53    
+                      54    ;Transmit process
+0074 93               55    movc A, @A+DPTR ;get byte from ROM
+0075 F599             56    mov SBUF, A
+0077 0530             57    inc 30h
+                      58    
+PROTOC^1                                                                                                      PAGE 2
+
+0079                  59    transmit_int_end:
+0079 C299             60    clr TI
+007B 32               61    reti
+                      62    
+0090                  63    ORG 90h
+0090 01020304         64    DB 1,2,3,4,5,6,7,8,9,10
+0094 05060708   
+0098 090A       
+                      65    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+PROTOC^1                                                                                                      PAGE 3
+
+BYTE_TRANSMIT. . . . . . . . . .  C ADDR  006FH  
+CALCULATE_CONTROL_SUM. . . . . .  C ADDR  0055H  
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+LOOP . . . . . . . . . . . . . .  C ADDR  005CH  
+PCON . . . . . . . . . . . . . .  D ADDR  0087H  PREDEFINED  
+PRE_START. . . . . . . . . . . .  C ADDR  002BH  
+RI . . . . . . . . . . . . . . .  B ADDR  0098H  PREDEFINED  
+SBUF . . . . . . . . . . . . . .  D ADDR  0099H  PREDEFINED  
+SCON . . . . . . . . . . . . . .  D ADDR  0098H  PREDEFINED  
+START. . . . . . . . . . . . . .  C ADDR  003DH  NOT USED  
+TCON . . . . . . . . . . . . . .  D ADDR  0088H  PREDEFINED  
+TH1. . . . . . . . . . . . . . .  D ADDR  008DH  PREDEFINED  
+TI . . . . . . . . . . . . . . .  B ADDR  0099H  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  
+TRANSMITING. . . . . . . . . . .  C ADDR  0066H  
+TRANSMIT_INT_END . . . . . . . .  C ADDR  0079H  

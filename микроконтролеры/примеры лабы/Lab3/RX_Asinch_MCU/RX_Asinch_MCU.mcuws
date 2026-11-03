@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MCUWorkspace Schema="67" Class="CMCUWorkspace" Path="" PathAbs="" MCUType="1" ActiveProjectIndex="0">
+<MCUProjects>
+<ProjectItem ProjectPath="&amp;ASCRX_Proj\RX_Proj.mcuprj" ProjectPathAbs="&amp;ASCC:\3\RX_Asinch_MCU\RX_Proj\RX_Proj.mcuprj"/>
+</MCUProjects>
+</MCUWorkspace>

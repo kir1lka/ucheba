@@ -1,0 +1,55 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51
+                       2    ;TX controller
+0000                   3    org 00h
+0000 02006A            4    jmp pre_start
+0023                   5    org 23h
+0023 C299              6    clr TI
+0025 32                7    reti
+0060                   8    org 60h
+0060                   9    tabl:
+0060 CD020304         10            DB 11001101b,2,3,4,5,06,07,08,09,10
+0064 05060708   
+0068 090A       
+006A                  11    pre_start:
+006A 759842           12            mov SCON, #01000010b ; Enable serial first mode
+                      13            ;mov PCON, #10000000b ;Enable double speed
+006D 758920           14            mov TMOD, #00100000b ; Enable T/C1 2 mode
+0070 75A890           15            mov IE, #10010000b ; Enable serial interupt
+0073 75B810           16            mov IP, #00010000b ; Enable serial interupt priority
+0076 758BFB           17            mov TL1, #0FBh
+0079 758DFB           18            mov TH1, #0FBh
+007C D28E             19            setb TR1
+007E 7900             20            mov R1, #0h
+0080 780A             21            mov R0, #10
+0082 900060           22            mov DPTR, #tabl
+0085                  23    met1:
+0085 E9               24            mov A, R1
+0086 93               25            movc A, @A+DPTR
+0087 A3               26            inc DPTR
+0088 F599             27            mov SBUF, A
+008A                  28    met2:
+008A 3099FD           29            jnb TI, met2
+008D D8F6             30    djnz R0, met1
+008F                  31    exit:
+008F 80FE             32            sjmp $
+                      33    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+EXIT . . . . . . . . . . . . . .  C ADDR  008FH  NOT USED  
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+IP . . . . . . . . . . . . . . .  D ADDR  00B8H  PREDEFINED  
+MET1 . . . . . . . . . . . . . .  C ADDR  0085H  
+MET2 . . . . . . . . . . . . . .  C ADDR  008AH  
+PRE_START. . . . . . . . . . . .  C ADDR  006AH  
+SBUF . . . . . . . . . . . . . .  D ADDR  0099H  PREDEFINED  
+SCON . . . . . . . . . . . . . .  D ADDR  0098H  PREDEFINED  
+TABL . . . . . . . . . . . . . .  C ADDR  0060H  
+TH1. . . . . . . . . . . . . . .  D ADDR  008DH  PREDEFINED  
+TI . . . . . . . . . . . . . . .  B ADDR  0099H  PREDEFINED  
+TL1. . . . . . . . . . . . . . .  D ADDR  008BH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  
+TR1. . . . . . . . . . . . . . .  B ADDR  008EH  PREDEFINED  

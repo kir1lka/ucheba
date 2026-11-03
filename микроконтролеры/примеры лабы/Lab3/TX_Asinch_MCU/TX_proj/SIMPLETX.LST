@@ -1,0 +1,45 @@
+SIMPLETX                                                                                                      PAGE 1
+
+                       1    $MOD51
+                       2    ;TX Controller
+0000                   3    ORG 00h
+0000 02002B            4    jmp start
+0023                   5    ORG 23h
+0023 C299              6    clr TI
+0025 32                7    reti
+002B                   8    ORG 2Bh
+002B                   9    start:
+002B 759840           10    mov SCON, #01000000b ;Switch to Serail mode 1
+002E 758780           11    mov PCON, #10000000b ;Enable double speed
+0031 758920           12    mov TMOD, #00100000b ;Switch to T/C1 mode 2
+0034 75A890           13    mov IE, #10010000b ; Enable serial interupt
+0037 75B810           14    mov IP, #00010000b ; Enable serial interupt priority
+003A 758BFF           15    mov TL1, #0FFh ;
+003D 758DFF           16    mov TH1, #0FFh ;Max serial speed
+0040 758840           17    mov TCON, #01000000b ;Enable T/C1 (and serial too)
+                      18    
+0043                  19    loop:
+0043 7599CD           20    mov SBUF, #11001101b
+0046 3099FD           21    jnb TI, $
+0049 C299             22    clr TI
+004B 7599BA           23    mov SBUF, #10111010b
+004E 3099FD           24    jnb TI, $
+0051 C299             25    clr TI
+0053 80EE             26    jmp loop
+                      27    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+SIMPLETX                                                                                                      PAGE 2
+
+IE . . . . . . . . . . . . . . .  D ADDR  00A8H  PREDEFINED  
+IP . . . . . . . . . . . . . . .  D ADDR  00B8H  PREDEFINED  
+LOOP . . . . . . . . . . . . . .  C ADDR  0043H  
+PCON . . . . . . . . . . . . . .  D ADDR  0087H  PREDEFINED  
+SBUF . . . . . . . . . . . . . .  D ADDR  0099H  PREDEFINED  
+SCON . . . . . . . . . . . . . .  D ADDR  0098H  PREDEFINED  
+START. . . . . . . . . . . . . .  C ADDR  002BH  
+TCON . . . . . . . . . . . . . .  D ADDR  0088H  PREDEFINED  
+TH1. . . . . . . . . . . . . . .  D ADDR  008DH  PREDEFINED  
+TI . . . . . . . . . . . . . . .  B ADDR  0099H  PREDEFINED  
+TL1. . . . . . . . . . . . . . .  D ADDR  008BH  PREDEFINED  
+TMOD . . . . . . . . . . . . . .  D ADDR  0089H  PREDEFINED  

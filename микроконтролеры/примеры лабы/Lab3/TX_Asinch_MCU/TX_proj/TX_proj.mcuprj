@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MCUProject Schema="67" Class="CMCUProject" Path="" PathAbs="" ProjectType="0">
+<ProjectFolders/>
+<ProjectFiles>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCmain.asm" PathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\main.asm" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCsimpleTX.asm" PathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\simpleTX.asm" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCProtocolTX.asm" PathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\ProtocolTX.asm" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+</ProjectFiles>
+<BuildSettings>
+<MCUProjectBuildSettings Class="CMCUProjectBuildSettings" ToolGroupType="0" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\" TargetFileType="6" SimPath="&amp;ASC.\" SimPathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\" SimFile="&amp;ASCmain.hex" CodeLoadType="0">
+<Assembler>
+<MCUToolSettings Class="CMCUToolSettings" ToolType="0" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;ASCC:\3\TX_Asinch_MCU\TX_proj\" TargetType="6" IncludeOptions="&amp;ASC$MOD51" PreFilenameOptions="" PostFilenameOptions="">
+<MCULibraries/>
+</MCUToolSettings>
+</Assembler>
+</MCUProjectBuildSettings>
+</BuildSettings>
+</MCUProject>

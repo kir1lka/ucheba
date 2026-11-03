@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MCUProject Schema="67" Class="CMCUProject" Path="" PathAbs="" ProjectType="0">
+<ProjectFolders/>
+<ProjectFiles>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCmain.asm" PathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\main.asm" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCSinus.asm" PathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\Sinus.asm" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+</ProjectFiles>
+<BuildSettings>
+<MCUProjectBuildSettings Class="CMCUProjectBuildSettings" ToolGroupType="0" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\" TargetFileType="6" SimPath="&amp;ASC.\" SimPathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\" SimFile="&amp;ASCmain.hex" CodeLoadType="0">
+<Assembler>
+<MCUToolSettings Class="CMCUToolSettings" ToolType="0" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;ASCC:\7\Lab7_project\Lab7_project\" TargetType="6" IncludeOptions="&amp;ASC$MOD52" PreFilenameOptions="" PostFilenameOptions="">
+<MCULibraries/>
+</MCUToolSettings>
+</Assembler>
+</MCUProjectBuildSettings>
+</BuildSettings>
+</MCUProject>
