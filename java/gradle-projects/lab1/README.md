@@ -1,23 +1,13 @@
-# Лабораторная работа 1
+# Лабораторная работа №1. Spring Boot
 
-Семестр 2. Введение в Spring Boot. Проект Demo для хранения заметок.
+В папке находится полная копия курсового приложения расписания `raspisa-hki`.
 
-## Запуск в PowerShell
+Отчёт: [rep.ipynb](rep.ipynb). Он содержит пояснения и небольшие фрагменты Java-кода в текстовых ячейках, без запуска в Colab.
 
-```powershell
-.\gradlew.bat bootRun
-```
+Основные файлы: `src/main/java/ru/raspisa/RaspisaApplication.java`, `web/PingController.java`, `web/LessonController.java`.
 
-Адрес приложения: <http://localhost:8080>. Остановка: Ctrl+C.
+Исходный репозиторий приложения: [kir1lka/raspisa-hki](https://github.com/kir1lka/raspisa-hki).
 
-## Сборка
+Для просмотра локального отчёта загрузите `rep.ipynb` в Google Colab через «Файл», «Открыть блокнот», «Загрузить».
 
-```powershell
-.\gradlew.bat bootJar
-```
-
-Используются JDK 17, Gradle Wrapper 8.12 и Spring Boot 3.2.3.
-
-[Отчёт в Google Colab](https://colab.research.google.com/github/kir1lka/cad-2025/blob/main/sem2/lab1/rep.ipynb)
-
-Исходники для публикации и отчёт хранятся в репозитории `cad-2025/sem2/lab1`.
+Отдельный проект Demo сохранён в резервной копии вне этой папки. Подключение базы и сборка интерфейса задаются файлами приложения. Комментарии удалены из исходников и конфигурации; `build.gradle.kts` сохранён без изменения.
