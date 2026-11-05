@@ -1,0 +1,261 @@
+[
+  {
+    "method": "GET",
+    "path": "/users/1",
+    "request": null,
+    "status": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "66"
+    },
+    "body": "{\"id\": 1, \"name\": \"Initial User\", \"email\": \"initial@example.test\"}",
+    "id": "API-01",
+    "expected_status": 200,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "path": "/users/99999",
+    "request": null,
+    "status": 404,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "27"
+    },
+    "body": "{\"error\": \"User not found\"}",
+    "id": "API-02",
+    "expected_status": 404,
+    "passed": true
+  },
+  {
+    "method": "POST",
+    "path": "/users",
+    "request": {
+      "name": "Kirill",
+      "email": "qa@example.test"
+    },
+    "status": 201,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "55"
+    },
+    "body": "{\"id\": 2, \"name\": \"Kirill\", \"email\": \"qa@example.test\"}",
+    "id": "API-03",
+    "expected_status": 201,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "path": "/users/2",
+    "request": null,
+    "status": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "55"
+    },
+    "body": "{\"id\": 2, \"name\": \"Kirill\", \"email\": \"qa@example.test\"}",
+    "id": "API-04",
+    "expected_status": 200,
+    "passed": true
+  },
+  {
+    "method": "POST",
+    "path": "/users",
+    "request": {
+      "name": "No Email"
+    },
+    "status": 400,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "36"
+    },
+    "body": "{\"error\": \"valid email is required\"}",
+    "id": "API-05",
+    "expected_status": 400,
+    "passed": true
+  },
+  {
+    "method": "POST",
+    "path": "/users",
+    "request": {
+      "name": "   ",
+      "email": "qa@example.test"
+    },
+    "status": 400,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "29"
+    },
+    "body": "{\"error\": \"name is required\"}",
+    "id": "API-06",
+    "expected_status": 400,
+    "passed": true
+  },
+  {
+    "method": "POST",
+    "path": "/users",
+    "request": {
+      "name": "Kirill",
+      "email": "invalid"
+    },
+    "status": 400,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "36"
+    },
+    "body": "{\"error\": \"valid email is required\"}",
+    "id": "API-07",
+    "expected_status": 400,
+    "passed": true
+  },
+  {
+    "method": "PUT",
+    "path": "/users/2",
+    "request": {
+      "name": "Updated",
+      "email": "qa@example.test"
+    },
+    "status": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "56"
+    },
+    "body": "{\"id\": 2, \"name\": \"Updated\", \"email\": \"qa@example.test\"}",
+    "id": "API-08",
+    "expected_status": 200,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "path": "/users/2",
+    "request": null,
+    "status": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "56"
+    },
+    "body": "{\"id\": 2, \"name\": \"Updated\", \"email\": \"qa@example.test\"}",
+    "id": "API-09",
+    "expected_status": 200,
+    "passed": true
+  },
+  {
+    "method": "PUT",
+    "path": "/users/99999",
+    "request": {
+      "name": "Updated",
+      "email": "qa@example.test"
+    },
+    "status": 404,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "27"
+    },
+    "body": "{\"error\": \"User not found\"}",
+    "id": "API-10",
+    "expected_status": 404,
+    "passed": true
+  },
+  {
+    "method": "PUT",
+    "path": "/users/2",
+    "request": {
+      "name": "Updated"
+    },
+    "status": 400,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "36"
+    },
+    "body": "{\"error\": \"valid email is required\"}",
+    "id": "API-11",
+    "expected_status": 400,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "path": "/users/2",
+    "request": null,
+    "status": 200,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "56"
+    },
+    "body": "{\"id\": 2, \"name\": \"Updated\", \"email\": \"qa@example.test\"}",
+    "id": "API-12",
+    "expected_status": 200,
+    "passed": true
+  },
+  {
+    "method": "DELETE",
+    "path": "/users/2",
+    "request": null,
+    "status": 204,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "0"
+    },
+    "body": "",
+    "id": "API-13",
+    "expected_status": 204,
+    "passed": true
+  },
+  {
+    "method": "GET",
+    "path": "/users/2",
+    "request": null,
+    "status": 404,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "27"
+    },
+    "body": "{\"error\": \"User not found\"}",
+    "id": "API-14",
+    "expected_status": 404,
+    "passed": true
+  },
+  {
+    "method": "DELETE",
+    "path": "/users/2",
+    "request": null,
+    "status": 404,
+    "headers": {
+      "Server": "BaseHTTP/0.6 Python/3.12.14",
+      "Date": "Thu, 05 Nov 2026 12:23:53 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "27"
+    },
+    "body": "{\"error\": \"User not found\"}",
+    "id": "API-15",
+    "expected_status": 404,
+    "passed": true
+  }
+]

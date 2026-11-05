@@ -1,0 +1,457 @@
+{
+  "info": {
+    "name": "Лабораторные 7 и 8 CRUD",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8765"
+    },
+    {
+      "key": "createdId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "API-01 GET /users/1",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200',()=>pm.response.to.have.status(200));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"Initial User\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-02 GET /users/99999",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/99999"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404',()=>pm.response.to.have.status(404));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"User not found\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-03 POST /users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Kirill\", \"email\": \"qa@example.test\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201',()=>pm.response.to.have.status(201));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"Kirill\"));",
+              "pm.collectionVariables.set('createdId',pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-04 GET /users/{{createdId}}",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200',()=>pm.response.to.have.status(200));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"Kirill\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-05 POST /users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"No Email\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400',()=>pm.response.to.have.status(400));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"valid email is required\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-06 POST /users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"   \", \"email\": \"qa@example.test\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400',()=>pm.response.to.have.status(400));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"name is required\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-07 POST /users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Kirill\", \"email\": \"invalid\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400',()=>pm.response.to.have.status(400));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"valid email is required\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-08 PUT /users/{{createdId}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Updated\", \"email\": \"qa@example.test\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200',()=>pm.response.to.have.status(200));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-09 GET /users/{{createdId}}",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200',()=>pm.response.to.have.status(200));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-10 PUT /users/99999",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/99999",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Updated\", \"email\": \"qa@example.test\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404',()=>pm.response.to.have.status(404));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"User not found\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-11 PUT /users/{{createdId}}",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Updated\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400',()=>pm.response.to.have.status(400));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"valid email is required\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-12 GET /users/{{createdId}}",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200',()=>pm.response.to.have.status(200));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-13 DELETE /users/{{createdId}}",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204',()=>pm.response.to.have.status(204));",
+              "pm.test('Empty body',()=>pm.expect(pm.response.text()).to.eql(''));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-14 GET /users/{{createdId}}",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404',()=>pm.response.to.have.status(404));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"User not found\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "API-15 DELETE /users/{{createdId}}",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{createdId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404',()=>pm.response.to.have.status(404));",
+              "pm.test(\"Response value\",()=>pm.expect(pm.response.text()).to.include(\"User not found\"));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
