@@ -1,0 +1,50 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51
+                       2    ; Laboratory 1 / handbook laboratory 2 / RAM option 4.
+                       3    ; 8051: internal program ROM, external 8 KiB SRAM.
+                       4    ; Test 1024 bytes: 1000H through 13FFH, pattern FFH.
+                       5    ; P1.0 = active-high ERROR probe; P1.1 = active-high PASS probe.
+                       6    ; All other P1 bits are left unchanged.
+0000                   7    ORG 0000H
+0000 020030            8        LJMP START
+                       9    
+0030                  10    ORG 0030H
+0030                  11    START:
+0030 C290             12        CLR P1.0             ; Clear ERROR indication.
+0032 C291             13        CLR P1.1             ; Clear PASS indication.
+0034 7580FF           14        MOV P0,#0FFH         ; Release external multiplexed address/data bus.
+0037 75A0FF           15        MOV P2,#0FFH         ; Enable external high-address bus functions.
+003A D2B6             16        SETB P3.6            ; Release /WR for hardware bus control.
+003C D2B7             17        SETB P3.7            ; Release /RD for hardware bus control.
+003E 901000           18        MOV DPTR,#1000H      ; First address to test.
+0041 7E04             19        MOV R6,#04H          ; Four blocks of 256 bytes.
+0043 7F00             20        MOV R7,#00H          ; DJNZ from zero produces 256 iterations.
+0045                  21    RAM_LOOP:
+0045 74FF             22        MOV A,#0FFH          ; Required pattern for option 4.
+0047 F0               23        MOVX @DPTR,A         ; Write one byte to external SRAM.
+0048 E0               24        MOVX A,@DPTR         ; Read the same byte back.
+0049 64FF             25        XRL A,#0FFH          ; Zero means actual byte equals pattern.
+004B 7009             26        JNZ RAM_ERROR        ; Stop at first mismatch, DPTR = failing address.
+004D A3               27        INC DPTR             ; Advance only after successful verification.
+004E DFF5             28        DJNZ R7,RAM_LOOP     ; 256 bytes per block; R7 finishes at zero.
+0050 DEF3             29        DJNZ R6,RAM_LOOP     ; Reuse zero R7 for the next 256-byte block.
+0052 D291             30        SETB P1.1            ; PASS: all 1024 comparisons succeeded.
+0054 8002             31        SJMP RAM_HALT        ; DPTR = 1400H, R6 = R7 = A = 0.
+0056                  32    RAM_ERROR:
+0056 D290             33        SETB P1.0            ; ERROR: A is the XOR difference, P1.1 stays 0.
+0058                  34    RAM_HALT:
+0058 80FE             35        SJMP RAM_HALT        ; Stable final state for Memory view/probes.
+                      36    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+P0 . . . . . . . . . . . . . . .  D ADDR  0080H  PREDEFINED  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+P2 . . . . . . . . . . . . . . .  D ADDR  00A0H  PREDEFINED  
+P3 . . . . . . . . . . . . . . .  D ADDR  00B0H  PREDEFINED  
+RAM_ERROR. . . . . . . . . . . .  C ADDR  0056H  
+RAM_HALT . . . . . . . . . . . .  C ADDR  0058H  
+RAM_LOOP . . . . . . . . . . . .  C ADDR  0045H  
+START. . . . . . . . . . . . . .  C ADDR  0030H  
