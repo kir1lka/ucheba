@@ -1,0 +1,60 @@
+MAIN                                                                                                          PAGE 1
+
+                       1    $MOD51
+                       2    ; Laboratory 1 / handbook laboratory 2 / ROM option 10.
+                       3    ; 8051: 4 KiB internal program ROM; external 8 KiB EPROM in XDATA.
+                       4    ; EA must be HIGH. External EPROM /OE = /RD, /CE = GND.
+                       5    ; Load ROM8K.bin or ROM8K.hex INTO THE EXTERNAL EPROM component.
+                       6    ; Sum 150 bytes at 0C00H..0C95H, modulo 256.
+                       7    ; Data: 01 02 03 04 05 at 0C00H..0C04H, all other ROM bytes = 00.
+                       8    ; MOVX selects XDATA; MOVC below 1000H would select internal CODE ROM.
+                       9    ; P1.0 = active-high ERROR probe; P1.1 = active-high PASS probe.
+0000                  10    ORG 0000H
+0000 020030           11        LJMP START
+                      12    
+0030                  13    ORG 0030H
+0030                  14    START:
+0030 C290             15        CLR P1.0             ; Clear ERROR indication.
+0032 C291             16        CLR P1.1             ; Clear PASS indication.
+0034 7580FF           17        MOV P0,#0FFH         ; Release external address/data bus.
+0037 75A0FF           18        MOV P2,#0FFH         ; Enable high-address bus functions.
+003A D2B7             19        SETB P3.7            ; Release /RD for hardware XDATA read control.
+003C 900C00           20        MOV DPTR,#0C00H      ; First external EPROM address in XDATA space.
+003F 7D00             21        MOV R5,#00H          ; Eight-bit running checksum.
+0041 7E00             22        MOV R6,#00H          ; Unused in this single-byte-count test.
+0043 7F96             23        MOV R7,#096H         ; Exactly 150 bytes, 096H = 150 decimal.
+0045                  24    ROM_LOOP:
+0045 E0               25        MOVX A,@DPTR         ; Read external EPROM through /RD in XDATA space.
+0046 2D               26        ADD A,R5             ; Carry beyond bit 7 is intentionally discarded.
+0047 FD               27        MOV R5,A             ; Save checksum modulo 256.
+0048 A3               28        INC DPTR
+0049 DFFA             29        DJNZ R7,ROM_LOOP     ; End of range: DPTR = 0C96H after 150 reads.
+004B 900300           30        MOV DPTR,#REFERENCE  ; Reference is inside internal program ROM.
+004E E4               31        CLR A
+004F 93               32        MOVC A,@A+DPTR       ; Read the resident reference byte, not external ROM.
+0050 6D               33        XRL A,R5             ; Zero means checksum matches reference.
+0051 7004             34        JNZ ROM_ERROR
+0053 D291             35        SETB P1.1            ; PASS: R5 = 0FH, A = 0, R6 = R7 = 0.
+0055 8002             36        SJMP ROM_HALT
+0057                  37    ROM_ERROR:
+0057 D290             38        SETB P1.0            ; ERROR: nonzero XOR difference, P1.1 stays 0.
+0059                  39    ROM_HALT:
+0059 80FE             40        SJMP ROM_HALT        ; Stable state for observing checksum/probes.
+                      41    
+0300                  42    ORG 0300H                ; 0300H is within the 8051 internal 4 KiB ROM.
+0300                  43    REFERENCE:
+0300 0F               44        DB 0FH               ; (1 + 2 + 3 + 4 + 5) modulo 256 = 15.
+                      45    END
+
+VERSION 1.2k ASSEMBLY COMPLETE, 0 ERRORS FOUND
+MAIN                                                                                                          PAGE 2
+
+P0 . . . . . . . . . . . . . . .  D ADDR  0080H  PREDEFINED  
+P1 . . . . . . . . . . . . . . .  D ADDR  0090H  PREDEFINED  
+P2 . . . . . . . . . . . . . . .  D ADDR  00A0H  PREDEFINED  
+P3 . . . . . . . . . . . . . . .  D ADDR  00B0H  PREDEFINED  
+REFERENCE. . . . . . . . . . . .  C ADDR  0300H  
+ROM_ERROR. . . . . . . . . . . .  C ADDR  0057H  
+ROM_HALT . . . . . . . . . . . .  C ADDR  0059H  
+ROM_LOOP . . . . . . . . . . . .  C ADDR  0045H  
+START. . . . . . . . . . . . . .  C ADDR  0030H  

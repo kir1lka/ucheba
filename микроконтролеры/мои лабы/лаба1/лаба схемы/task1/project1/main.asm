@@ -16,8 +16,8 @@ START:
     SETB P3.6            ; Release /WR for hardware bus control.
     SETB P3.7            ; Release /RD for hardware bus control.
     MOV DPTR,#1000H      ; First address to test.
-    MOV R6,#04H          ; Four blocks of 256 bytes.
-    MOV R7,#00H          ; DJNZ from zero produces 256 iterations.
+    MOV R6,#04H ; MOV R6,#01H          ; Four blocks of 256 bytes.
+    MOV R7,#00H  ;MOV R7,#10H        ; DJNZ from zero produces 256 iterations.
 RAM_LOOP:
     MOV A,#0FFH          ; Required pattern for option 4.
     MOVX @DPTR,A         ; Write one byte to external SRAM.

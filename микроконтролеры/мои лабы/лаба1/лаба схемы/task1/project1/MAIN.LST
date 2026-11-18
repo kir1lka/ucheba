@@ -18,8 +18,8 @@
 003A D2B6             16        SETB P3.6            ; Release /WR for hardware bus control.
 003C D2B7             17        SETB P3.7            ; Release /RD for hardware bus control.
 003E 901000           18        MOV DPTR,#1000H      ; First address to test.
-0041 7E04             19        MOV R6,#04H          ; Four blocks of 256 bytes.
-0043 7F00             20        MOV R7,#00H          ; DJNZ from zero produces 256 iterations.
+0041 7E04             19        MOV R6,#04H ; MOV R6,#01H          ; Four blocks of 256 bytes.
+0043 7F00             20        MOV R7,#00H  ;MOV R7,#10H        ; DJNZ from zero produces 256 iterations.
 0045                  21    RAM_LOOP:
 0045 74FF             22        MOV A,#0FFH          ; Required pattern for option 4.
 0047 F0               23        MOVX @DPTR,A         ; Write one byte to external SRAM.

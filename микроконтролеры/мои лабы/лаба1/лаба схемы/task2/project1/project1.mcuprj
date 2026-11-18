@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<MCUProject Schema="67" Class="CMCUProject" Path="" PathAbs="" ProjectType="0">
+<ProjectFolders/>
+<ProjectFiles>
+<FileItem>
+<MCUFile Class="CMCUFile" Path="&amp;ASCmain.asm" PathAbs="&amp;UNIC:\Users\Blinov\Desktop\_uc504430447043504310430\_ucf043c0438043a0440043e043a043e043d04420440043e043b04350440044b\_uc3043c043e0438 _uc4043b04300431044b\_uc4043b0430043104301\_uc4043b043004310430 _uc5044104450435043c044b\task2\project1\main.asm" UseFileOptions="0" FileOptions=""/>
+</FileItem>
+</ProjectFiles>
+<BuildSettings>
+<MCUProjectBuildSettings Class="CMCUProjectBuildSettings" ToolGroupType="0" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="&amp;UNIC:\Users\Blinov\Desktop\_uc504430447043504310430\_ucf043c0438043a0440043e043a043e043d04420440043e043b04350440044b\_uc3043c043e0438 _uc4043b04300431044b\_uc4043b0430043104301\_uc4043b043004310430 _uc5044104450435043c044b\task2\project1\" OutputPath="&amp;ASC.\" OutputPathAbs="&amp;UNIC:\Users\Blinov\Desktop\_uc504430447043504310430\_ucf043c0438043a0440043e043a043e043d04420440043e043b04350440044b\_uc3043c043e0438 _uc4043b04300431044b\_uc4043b0430043104301\_uc4043b043004310430 _uc5044104450435043c044b\task2\project1\" TargetFileType="6" SimPath="&amp;ASC.\" SimPathAbs="&amp;UNIC:\Users\Blinov\Desktop\_uc504430447043504310430\_ucf043c0438043a0440043e043a043e043d04420440043e043b04350440044b\_uc3043c043e0438 _uc4043b04300431044b\_uc4043b0430043104301\_uc4043b043004310430 _uc5044104450435043c044b\task2\project1\" SimFile="&amp;ASCmain.hex" CodeLoadType="0">
+<Assembler>
+<MCUToolSettings Class="CMCUToolSettings" ToolType="0" IntermediatePath="&amp;ASC.\" IntermediatePathAbs="" OutputPath="&amp;ASC.\" OutputPathAbs="" TargetType="6" IncludeOptions="&amp;ASC$MOD51" PreFilenameOptions="" PostFilenameOptions="">
+<MCULibraries/>
+</MCUToolSettings>
+</Assembler>
+</MCUProjectBuildSettings>
+</BuildSettings>
+</MCUProject>
